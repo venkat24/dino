@@ -40,7 +40,7 @@ var dino = {
 var tree = {
 	width: 138,
 	height: 150,
-	x: 2000,
+	x: 4000,
 	y: 450
 };
 
@@ -100,27 +100,25 @@ var render = function () {
 	if (dino.x < tree.x + treeWidth  && dino.x + dinoWidth  > tree.x &&
 		dino.y < tree.y + treeHeight && dino.y + dinoHeight > tree.y) {
 		if (!game_over) {
-			alert("Game Over. Your score is " + (Math.floor(score/100)-1));
+			alert("Game Over. Your score is " + (Math.floor(score)));
 			location.reload();
 		}
 		game_over = true;
 	}
 	if (tree.x < (dino.x-130)) {
 		tree.x+=1000 + Math.floor(Math.random()*1000);
+		score++;
 	}
 	dino.vel+=gravity;
 	dino.y+=dino.vel;
 	dino.x+=20;
 	tree.x-=5;
-	score++;
-	//document.getElementById("score").innerHTML = "Score" + score;
 };
 var offsetX = -20;
 var main = function () {
 	var now = Date.now();
 	var delta = now - then;
 	render();
-	score++;
 	keys();
 	then = now;
 	requestAnimationFrame(main);
@@ -130,7 +128,7 @@ var w = window;
 requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame || w.msRequestAnimationFrame || w.mozRequestAnimationFrame;
 var then = Date.now();
 
-//Splash
+//Splash Screen
 var splashReady = false;
 var splashImage = new Image();
 splashImage.onload = function () {
