@@ -48,6 +48,9 @@ var keysDown = {};
 
 addEventListener("keydown", function (e) {
 	keysDown[e.keyCode] = true;
+	if ( ( e.keycode || e.which ) == 32) {
+        e.preventDefault();
+    }
 }, false);
 
 addEventListener("keyup", function (e) {
@@ -72,13 +75,13 @@ var keys = function () {
 var xpos = 0;
 var game_over=false;
 var score = 0;
+var factor1 = 1;
+var factor2 = 1;
 var render = function () {
 	ctx.translate(offsetX, 0);
 	if (bgReady) {
-		ctx.drawImage(bgImage, 0, 0);
-		ctx.drawImage(bgImage, bgImage.width, 0);
-		ctx.drawImage(bgImage, 2*bgImage.width, 0);
-		ctx.drawImage(bgImage, 3*bgImage.width, 0);
+		ctx.drawImage(bgImage, ((factor1-1)*25600) + 0, 0);
+		ctx.drawImage(bgImage, ((factor2-1)*12800) + 12800, 0);
 	}
 	if (dino.y <= 0) {
 		dino.y=0;
@@ -109,12 +112,19 @@ var render = function () {
 		tree.x+=1000 + Math.floor(Math.random()*1000);
 		score++;
 	}
+	if (dino.x > (12800*factor1)) {
+		if (factor1 <= factor2) {
+			factor1++;
+		} else {
+			factor2++;
+		}
+	}
 	dino.vel+=gravity;
 	dino.y+=dino.vel;
-	dino.x+=20;
+	dino.x+=15;
 	tree.x-=5;
 };
-var offsetX = -20;
+var offsetX = -15 ;
 var main = function () {
 	var now = Date.now();
 	var delta = now - then;
