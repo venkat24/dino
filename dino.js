@@ -56,6 +56,10 @@ addEventListener("keydown", function (e) {
 addEventListener("touchstart", function (e) {
 	keysDown[32] = true;
 }, false);
+
+addEventListener("touchend", function (e) {
+	keysDown[32] = false;
+}, false);
 addEventListener("keyup", function (e) {
 	keysDown[e.keyCode] = false;
 }, false);
