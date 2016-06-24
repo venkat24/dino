@@ -49,10 +49,13 @@ var keysDown = {};
 addEventListener("keydown", function (e) {
 	keysDown[e.keyCode] = true;
 	if ( ( e.keycode || e.which ) == 32) {
-        e.preventDefault();
-    }
+		e.preventDefault();
+	}
 }, false);
 
+addEventListener("touchstart", function (e) {
+	keysDown[32] = true;
+}, false);
 addEventListener("keyup", function (e) {
 	keysDown[e.keyCode] = false;
 }, false);
@@ -62,21 +65,26 @@ var gravity = 2 ;  // 2 -> Easy --- 3 -> HARD
 var keys = function () {
 	if (keysDown[32]) { // Player holding space
 		if(!dino.jumping) {
-   			if (!game_started) {
-   				game_started = true;
-   				main();
-   			} else {
-   				dino.jumping = true;
-   				dino.vel = -dino.speed*2;
-   			}
-   		}
+			pauseGame();
+			if (!game_started) {
+				game_started = true;
+				main();
+			} else {
+				dino.jumping = true;
+				dino.vel = -dino.speed*2;
+			}
+		}
 	}
+	if (keysDown[80]) pauseGame();
 };
 var xpos = 0;
 var game_over=false;
 var score = 0;
 var factor1 = 1;
 var factor2 = 1;
+var pauseGame = function () {
+	requestAnimationFrame(pauseGame);
+}
 var render = function () {
 	ctx.translate(offsetX, 0);
 	if (bgReady) {
